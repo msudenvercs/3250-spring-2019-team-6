@@ -4,7 +4,7 @@ def HelloWorld():
     print("Hello Steven Wancewicz")
     print("Hello Christian Waldron")
     print("Hello Claire Wiesner")
-    print("Daniel Reuter")
+    print("Hello Daniel Reuter")
 
 if '__main__' == __name__:
     HelloWorld()
