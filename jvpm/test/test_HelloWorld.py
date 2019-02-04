@@ -2,6 +2,7 @@
 #              Christian Waldron
 #              Claire Wiesner
 #              Daniel Reuter
+#              Johnson Winter
 
 import unittest
 import sys
@@ -19,4 +20,5 @@ class TestHelloWorld(unittest.TestCase):
              call.write('Hello Claire Wiesner'), call.write('\n'),
              call.write('Hello Daniel Reuter'), call.write('\n'),
              call.write('Hello Wali'), call.write('\n'),
-             call.write('Hello Jesus Torres'), call.write('\n')])
+             call.write('Hello Jesus Torres'), call.write('\n')
+             call.write('Hello Johnson Winter'), call.write('\n')])
