@@ -4,7 +4,28 @@ from unittest.mock import mock_open, patch
 class ClassFile():
     def __init__(self):
         with open('test.class', 'rb') as binary_file:
+            #the byte string being stored in self.data to be parsed
             self.data = binary_file.read()
+            self.magic = get_magic(self)
+            self.minor = get_minor(self)
+            self.major = get_major(self)
+            self.constant_pool = get_constant_pool(self)
+            self.constant_table =  get_constant_pool_table(self)
+            self.access_flags = get_access_flags(self)
+            self.this_class = get_this_class(self)
+            self.superclass = get_super_class(self)
+            self.interface_count = get_interface_count(self)
+            self.cp_and_ic = self.interface_count + self.constant_pool
+            self.interface_table - get_interface_table(self)
+            self.field_count = get_field_count(self)
+            self.cp_ic_fc = self.cp_and_ic + self.field_count
+            self.field_table = get_field_table(self)
+            self.method_count = get_method_count(self)
+            self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
+            self.method_table = get_method_table(self)
+            self.attribute_count = get_attribute_count(self)
+            self.cp_ic_fc_mc_ac = self.cp_ic_fc_mc + self.attribute_count
+            self.attribute_table = get_attribute_table(self)
 
     def get_magic(self):
         magic = ""
@@ -17,6 +38,46 @@ class ClassFile():
 
     def get_major(self):
         return self.data[6] + self.data[7]
+
+    def get_constant_pool(self):
+        return self.data[8] + self.data[9]
+
+    def get_constant_pool_table(self):
+        constant = ""
+        for i in range(self.constant_pool):
+            constant += format(self.data[i + 10], '02X')
+        return constant
+
+    def get_access_flags(self):
+        return self.data[10 + self.constant_pool] + self.data[11 + self.constant_pool]
+
+    def get_this_class(self):
+        return self.data[12 + self.constant_pool] + self.data[13 + self.constant_pool]
+
+    def get_super_class(self):
+        return self.data[14 + self.constant_pool] + self.data[15 + self.constant_pool]
+
+    def get_interface_count(self):
+        return self.data[16 + self.constant_pool] + self.data[17 + self.constant_pool]
+
+    def get_interface_table(self):
+        interface = ""
+        for i in range(self.interface_count):
+            interface += format(self.data[i + 18 + self.constant_pool], '02X')
+        return interface
+
+    def get_field_count(self):
+        return self.data[18 + self.cp_and_ic] + self.data[19 + self.cp_and_ic]
+    def get_field_table(self):
+        return
+    def get_method_count(self):
+        return
+    def get_method_table(self):
+        return
+    def get_attribute_count(self):
+        return
+    def get_attribute_table(self):
+        return
 
 class OpCodes():
     def __init__(self):
