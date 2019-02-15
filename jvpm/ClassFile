@@ -24,7 +24,6 @@ class ClassFile():
             self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
             self.method_table = get_method_table(self)
             self.attribute_count = get_attribute_count(self)
-            self.cp_ic_fc_mc_ac = self.cp_ic_fc_mc + self.attribute_count
             self.attribute_table = get_attribute_table(self)
 
     def get_magic(self):
@@ -68,16 +67,30 @@ class ClassFile():
 
     def get_field_count(self):
         return self.data[18 + self.cp_and_ic] + self.data[19 + self.cp_and_ic]
+
     def get_field_table(self):
-        return
+        field = ""
+        for i in range(self.field_count):
+            field += format(self.data[i + 20 + self.cp_and_ic], '02X')
+        return field
+
     def get_method_count(self):
-        return
+        return self.data[20 + self.cp_ic_fc] + self.data[21 + self.cp_ic_fc]
+
     def get_method_table(self):
-        return
+        method = ""
+        for i in range(self.method_count):
+            method += format(self.data[i + 22 + self.cp_ic_fc], '02X')
+        return method
+
     def get_attribute_count(self):
-        return
+        return self.data[22 + self.cp_ic_fc_mc] + self.data[23 + self.cp_ic_fc_mc]
+        
     def get_attribute_table(self):
-        return
+        attribute = ""
+        for i in range(self.attribute_count):
+            attribute += format(self.data[i + 24 + self.cp_ic_fc_mc], '02X')
+        return attribute
 
 class OpCodes():
     def __init__(self):
