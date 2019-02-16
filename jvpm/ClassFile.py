@@ -98,9 +98,9 @@ class ClassFile():
         print("Minor version: ", self.minor)
         print("Major version: ", self.major)
         print("Constant pool: ")
-        for charac in self.constant_pool:
-            print(ch(charac), end = '')
-        print()
+        #for charac in self.constant_pool:
+        #    print(ch(charac), end = '')
+        #print()
         print("Constant table: ", self.constant_table)
         print("Access flags: ", self.access_flags)
         print("This class: ", self.this_class)
