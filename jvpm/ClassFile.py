@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 class ClassFile():
     def __init__(self):
-        with open('test.class', 'rb') as binary_file:
+        with open('jvpm/test.class', 'rb') as binary_file:
             #the byte string being stored in self.data to be parsed
             self.data = binary_file.read()
             self.magic = self.get_magic()
