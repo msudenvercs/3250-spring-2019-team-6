@@ -6,25 +6,25 @@ class ClassFile():
         with open('test.class', 'rb') as binary_file:
             #the byte string being stored in self.data to be parsed
             self.data = binary_file.read()
-            self.magic = get_magic(self)
-            self.minor = get_minor(self)
-            self.major = get_major(self)
-            self.constant_pool = get_constant_pool(self)
-            self.constant_table =  get_constant_pool_table(self)
-            self.access_flags = get_access_flags(self)
-            self.this_class = get_this_class(self)
-            self.superclass = get_super_class(self)
-            self.interface_count = get_interface_count(self)
+            self.magic = self.get_magic()
+            self.minor = self.get_minor()
+            self.major = self.get_major()
+            self.constant_pool = self.get_constant_pool()
+            self.constant_table =  self.get_constant_pool_table()
+            self.access_flags = self.get_access_flags()
+            self.this_class = self.get_this_class()
+            self.superclass = self.get_super_class()
+            self.interface_count = self.get_interface_count()
             self.cp_and_ic = self.interface_count + self.constant_pool
-            self.interface_table - get_interface_table(self)
-            self.field_count = get_field_count(self)
+            self.interface_table = self.get_interface_table()
+            self.field_count = self.get_field_count()
             self.cp_ic_fc = self.cp_and_ic + self.field_count
-            self.field_table = get_field_table(self)
-            self.method_count = get_method_count(self)
+            self.field_table = self.get_field_table()
+            self.method_count = self.get_method_count()
             self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
-            self.method_table = get_method_table(self)
-            self.attribute_count = get_attribute_count(self)
-            self.attribute_table = get_attribute_table(self)
+            self.method_table = self.get_method_table()
+            self.attribute_count = self.get_attribute_count()
+            self.attribute_table = self.get_attribute_table()
 
     def get_magic(self):
         magic = ""
@@ -92,28 +92,28 @@ class ClassFile():
             attribute += format(self.data[i + 24 + self.cp_ic_fc_mc], '02X')
         return attribute
 		
-	def print(self):
-		self.data = binary_file.read()
-        self.magic = get_magic(self)
-        self.minor = get_minor(self)
-        self.major = get_major(self)
-        self.constant_pool = get_constant_pool(self)
-        self.constant_table =  get_constant_pool_table(self)
-        self.access_flags = get_access_flags(self)
-        self.this_class = get_this_class(self)
-            self.superclass = get_super_class(self)
-            self.interface_count = get_interface_count(self)
-            self.cp_and_ic = self.interface_count + self.constant_pool
-            self.interface_table - get_interface_table(self)
-            self.field_count = get_field_count(self)
-            self.cp_ic_fc = self.cp_and_ic + self.field_count
-            self.field_table = get_field_table(self)
-            self.method_count = get_method_count(self)
-            self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
-            self.method_table = get_method_table(self)
-            self.attribute_count = get_attribute_count(self)
-            self.attribute_table = get_attribute_table(self)
-		
+    def printSelf(self):
+        print(self)
+
+ #       print(self.magic)
+ #       print(self.minor)
+ #       print(self.major)
+ #       self.constant_pool)
+ #       self.constant_table)
+ #       self.access_flags)
+ #       self.this_class)
+ #       self.superclass)
+ #       self.interface_count)
+ #       self.cp_and_ic)
+ #       self.field_count)
+ #       self.cp_ic_fc)
+ #       self.field_table)
+ #       self.method_count)
+ #       self.cp_ic_fc_mc
+ #       self.method_table
+ #       self.attribute_count
+ #       self.attribute_table
+
 
 class OpCodes():
     def __init__(self):
@@ -145,3 +145,6 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(OpCodes().interpret(0), 'not implemented')
         with self.assertRaises(KeyError):
             OpCodes().interpret(1)
+			
+classy = ClassFile()
+classy.printSelf()
