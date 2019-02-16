@@ -41,7 +41,7 @@ class ClassFile():
     def get_constant_pool(self):
         return self.data[8] + self.data[9]
 
-    def get_constant_pool_table(self):
+    def get_constant_pool_table(self): #TODO fix to read in as list, don't return...
         constant = ""
         for i in range(self.constant_pool):
             constant += format(self.data[i + 10], '02X')
@@ -94,26 +94,27 @@ class ClassFile():
 		
     def printSelf(self):
         print(self)
-
- #       print(self.magic)
- #       print(self.minor)
- #       print(self.major)
- #       self.constant_pool)
- #       self.constant_table)
- #       self.access_flags)
- #       self.this_class)
- #       self.superclass)
- #       self.interface_count)
- #       self.cp_and_ic)
- #       self.field_count)
- #       self.cp_ic_fc)
- #       self.field_table)
- #       self.method_count)
- #       self.cp_ic_fc_mc
- #       self.method_table
- #       self.attribute_count
- #       self.attribute_table
-
+        print("Magic: ", self.magic)
+        print("Minor version: ", self.minor)
+        print("Major version: ", self.major)
+        print("Constant pool: ")
+        #for charac in self.constant_pool:
+        #    print(ch(charac), end = '')
+        #print()
+        print("Constant table: ", self.constant_table)
+        print("Access flags: ", self.access_flags)
+        print("This class: ", self.this_class)
+        print("Superclass: ", self.superclass)
+        print("Interface count: ", self.interface_count)
+        print("Cp + Ic: ", self.cp_and_ic)
+        print("Field count: ", self.field_count)
+        print("Cp + Ic + fc: ", self.cp_ic_fc)
+        print("Field table: ", self.field_table)
+        print("Method count: ", self.method_count)
+        print("Cp + IC + Fc + Mc: ", self.cp_ic_fc_mc)
+        print("Method table: ", self.method_table)
+        print("Attribute count: ", self.attribute_count)
+        print("Attribute table: ", self.attribute_table)
 
 class OpCodes():
     def __init__(self):
@@ -146,5 +147,5 @@ class TestOpCodes(unittest.TestCase):
         with self.assertRaises(KeyError):
             OpCodes().interpret(1)
 			
-classy = ClassFile()
-classy.printSelf()
+classy = ClassFile() #TODO delete
+classy.printSelf() #TODO delete
