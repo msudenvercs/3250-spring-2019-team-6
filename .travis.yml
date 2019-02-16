@@ -5,8 +5,11 @@ python:
 # command to install dependencies
 install:
 #  - pip install unittest
-  
+
 # command to run tests
 script:
   - python3 -V
   - python3 -m unittest discover
+env:
+  -CODECOV_TOKEN="7b3e1b26-1cea-432c-8544-b4ae57238d3c"
+  
