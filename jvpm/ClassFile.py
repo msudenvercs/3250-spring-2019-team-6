@@ -1,30 +1,30 @@
 import unittest
-from unittest.mock import mock_open, patch
 
-class ClassFile():
-    def __init__(self):
-        with open('jvpm/test.class', 'rb') as binary_file:
-            #the byte string being stored in self.data to be parsed
+
+class ClassFile:
+    def __init__(self, file='jvpm/test.class'):
+        with open(file, 'rb') as binary_file:
+            # the byte string being stored in self.data to be parsed
             self.data = binary_file.read()
             self.magic = self.get_magic()
             self.minor = self.get_minor()
             self.major = self.get_major()
-            self.constant_pool = self.get_constant_pool()
-            self.constant_table =  self.get_constant_pool_table()
-            self.access_flags = self.get_access_flags()
-            self.this_class = self.get_this_class()
-            self.superclass = self.get_super_class()
-            self.interface_count = self.get_interface_count()
-            self.cp_and_ic = self.interface_count + self.constant_pool
-            self.interface_table = self.get_interface_table()
-            self.field_count = self.get_field_count()
-            self.cp_ic_fc = self.cp_and_ic + self.field_count
-            self.field_table = self.get_field_table()
-            self.method_count = self.get_method_count()
-            self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
-            self.method_table = self.get_method_table()
-            self.attribute_count = self.get_attribute_count()
-            self.attribute_table = self.get_attribute_table()
+            # self.constant_pool = self.get_constant_pool()
+            # self.constant_table =  self.get_constant_pool_table()
+            # self.access_flags = self.get_access_flags()
+            # self.this_class = self.get_this_class()
+            # self.superclass = self.get_super_class()
+            # self.interface_count = self.get_interface_count()
+            # self.cp_and_ic = self.interface_count + self.constant_pool
+            # self.interface_table = self.get_interface_table()
+            # self.field_count = self.get_field_count()
+            # self.cp_ic_fc = self.cp_and_ic + self.field_count
+            # self.field_table = self.get_field_table()
+            # self.method_count = self.get_method_count()
+            # self.cp_ic_fc_mc = self.cp_ic_fc + self.method_count
+            # self.method_table = self.get_method_table()
+            # self.attribute_count = self.get_attribute_count()
+            # self.attribute_table = self.get_attribute_table()
 
     def get_magic(self):
         magic = ""
@@ -41,14 +41,14 @@ class ClassFile():
     def get_constant_pool(self):
         return self.data[8] + self.data[9]
 
-    def get_constant_pool_table(self): #TODO fix to read in as list, don't return...
-        constant = ""
-        for i in range(self.constant_pool):
-            constant += format(self.data[i + 10], '02X')
+    def get_constant_pool_table(self):
+        constant = self.data[10:(10+self.constant_pool)]
+        # for i in range(self.constant_pool):
+        #    constant += format(self.data[i + 10], '02X')
         return constant
 
     def get_access_flags(self):
-        return self.data[10 + self.constant_pool] + self.data[11 + self.constant_pool]
+        return self.data[10 + self.constant_pool-1:11 + self.constant_pool]
 
     def get_this_class(self):
         return self.data[12 + self.constant_pool] + self.data[13 + self.constant_pool]
@@ -69,54 +69,57 @@ class ClassFile():
         return self.data[18 + self.cp_and_ic] + self.data[19 + self.cp_and_ic]
 
     def get_field_table(self):
-        field = ""
-        for i in range(self.field_count):
-            field += format(self.data[i + 20 + self.cp_and_ic], '02X')
+        field = self.data[self.cp_and_ic+20:(self.field_count+self.cp_ic_fc+20)]
+        # for i in range(self.field_count):
+        #    field += format(self.data[i + 20 + self.cp_and_ic], '02X')
         return field
 
     def get_method_count(self):
         return self.data[20 + self.cp_ic_fc] + self.data[21 + self.cp_ic_fc]
 
     def get_method_table(self):
-        method = ""
-        for i in range(self.method_count):
-            method += format(self.data[i + 22 + self.cp_ic_fc], '02X')
+        method = self.data[22+self.cp_ic_fc:22+self.cp_ic_fc_mc]
+        # for i in range(self.method_count):
+        #    method += format(self.data[i + 22 + self.cp_ic_fc], '02X')
         return method
 
     def get_attribute_count(self):
         return self.data[22 + self.cp_ic_fc_mc] + self.data[23 + self.cp_ic_fc_mc]
         
     def get_attribute_table(self):
-        attribute = ""
-        for i in range(self.attribute_count):
-            attribute += format(self.data[i + 24 + self.cp_ic_fc_mc], '02X')
+        attribute = self.data[(24+self.cp_ic_fc_mc):(24+self.cp_ic_fc_mc+self.attribute_count)]
+        # for i in range(self.attribute_count):
+        #    attribute += format(self.data[i + 24 + self.cp_ic_fc_mc], '02X')
         return attribute
-		
-    def printSelf(self):
+
+    def print_self(self):
         print(self)
         print("Magic: ", self.magic)
         print("Minor version: ", self.minor)
         print("Major version: ", self.major)
-        print("Constant pool: ")
-        #for charac in self.constant_pool:
-        #    print(ch(charac), end = '')
-        #print()
-        print("Constant table: ", self.constant_table)
-        print("Access flags: ", self.access_flags)
+        print("Constant pool: ", self.constant_pool)
+        print("Constant pool: ", self.constant_pool)
+        print("Constant table: ", "[%s]" % ", ".join(map(str, self.constant_table)))
+        print("Access flags: ", hex(self.access_flags[0]), hex(self.access_flags[1]))
         print("This class: ", self.this_class)
         print("Superclass: ", self.superclass)
         print("Interface count: ", self.interface_count)
         print("Cp + Ic: ", self.cp_and_ic)
         print("Field count: ", self.field_count)
         print("Cp + Ic + fc: ", self.cp_ic_fc)
-        print("Field table: ", self.field_table)
+        print("Field table: ", "[%s]" % ", ".join(map(str, self.field_table)))
         print("Method count: ", self.method_count)
         print("Cp + IC + Fc + Mc: ", self.cp_ic_fc_mc)
-        print("Method table: ", self.method_table)
+        print("Method table: ", "[%s]" % ", ".join(map(str, self.method_table)))
         print("Attribute count: ", self.attribute_count)
-        print("Attribute table: ", self.attribute_table)
+        print("Attribute table: ", "[%s]" % ", ".join(map(str, self.attribute_table)))
 
-class OpCodes():
+
+if '__main__' == __name__:
+    ClassFile()
+
+
+class OpCodes:
     def __init__(self):
         self.table = {0x00: self.not_implemented}
 
@@ -126,26 +129,6 @@ class OpCodes():
     def interpret(self, value):
         return self.table[value]()
 
-class TestClassFile(unittest.TestCase):
-    def setUp(self):
-        m = mock_open(read_data=b'\xCA\xFE\xBA\xBE\x00\x01\x02\x03')
-        with patch(__name__ + '.open', m):
-            self.cf = ClassFile()
 
-    def test_magic(self):
-        self.assertEqual(self.cf.get_magic(), 'CAFEBABE')
-
-    def test_minor(self):
-        self.assertEqual(self.cf.get_minor(), 1)
-
-    def test_major(self):
-        self.assertEqual(self.cf.get_major(), 5)
-
-class TestOpCodes(unittest.TestCase):
-    def test_not_implmented(self):
-        self.assertEqual(OpCodes().interpret(0), 'not implemented')
-        with self.assertRaises(KeyError):
-            OpCodes().interpret(1)
-			
-classy = ClassFile() #TODO delete
-classy.printSelf() #TODO delete
+# classy = ClassFile()
+# classy.print_self()
