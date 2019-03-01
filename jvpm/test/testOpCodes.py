@@ -10,30 +10,36 @@ class TestOpCodes(unittest.TestCase):
             OpCodes().interpret(1)
     def test_idiv_simple(self):
 	    test1 = OpCodes()
-	    test1.stack.append(2)
-	    test1.stack.append(4)
-	    test1.idiv()
-	    self.assertEqual(test1.stack.pop(), 2)
+	    test1.stack.append(2)    # Pushes Y onto the stack
+	    test1.stack.append(4)    # Pushes X onto the stack
+	    test1.idiv()             # idiv divides the first item on the stack by the second and pushes X/Y onto stack
+	    self.assertEqual(test1.stack.pop(), 2) #Tests if answere pushed on stack is correct
     def test_imul_simple(self):
 	    test2 = OpCodes()
-	    test2.stack.append(2)
-	    test2.stack.append(4)
-	    test2.imul()
-	    self.assertEqual(test2.stack.pop(), 8)
+	    test2.stack.append(2)    # Pushes Y onto the stack
+	    test2.stack.append(4)    # Pushes X onto stack
+	    test2.imul()             # Pops first two operands off stack and multiplies them and pushes X*Y
+	    self.assertEqual(test2.stack.pop(), 8) # Tests for correct X*Y on stack
     def test_ineg_simple(self):
-	    test3 = OpCodes()
-	    test3.stack.append(5)
-	    test3.ineg()
-	    self.assertEqual(test3.stack.pop(), -5)
+	    test3 = OpCodes()       
+	    test3.stack.append(5)    # Pushes X onto the stack
+	    test3.ineg()             # Negates X
+	    self.assertEqual(test3.stack.pop(), -5) # Tests for -X pn stack
     def test_ior_simple(self):
 	    test4 = OpCodes()
-	    test4.stack.append(6)
-		test4.stack.append(2)
-		test4.ior()
-		self.assertEqual(test4.stack.pop(), 7)
+	    test4.stack.append(6)    # Pushes Y onto the stack
+	    test4.stack.append(2)    # Pushes X onto the stack
+	    test4.ior()              # Pops first two operands off stack and does bitwise OR between them
+	    self.assertEqual(test4.stack.pop(), 7) # Tests for correct X OR Y on stack
     def test_irem_simple(self):
 	    test5 = OpCodes()
-		test5.stack.append(3)
-		test5.stack.append(7)
-		test5.irem()
-		self.assertEqual(test5.stack.pop(), 1)
+	    test5.stack.append(3)    # Pushes Y onto the stack
+	    test5.stack.append(7)    # Pushes X onto the stack
+	    test5.irem()             # Pops first two operands off stack and divides them then pushes the remainder to the stack
+	    self.assertEqual(test5.stack.pop(), 1) # Tests for correct remainder
+    def test_ishl_simple(self):
+	    test6 = OpCodes()
+	    test6.stack.append(3)    # Pushes Y onto the stack
+	    test6.stack.append(8)    # Pushes X onto the stack
+	    test6.ishl()             # Pops first two operands off stack and does X*2^Y
+	    self.assertEqual(test6.stack.pop(), 64) # Tests the answere of the shift
