@@ -13,7 +13,7 @@ class TestOpCodes(unittest.TestCase):
 	    test1.stack.append(2)    # Pushes Y onto the stack
 	    test1.stack.append(4)    # Pushes X onto the stack
 	    test1.idiv()             # idiv divides the first item on the stack by the second and pushes X/Y onto stack
-	    self.assertEqual(test1.stack.pop(), 2) #Tests if answere pushed on stack is correct
+	    self.assertEqual(test1.stack.pop(), 2) #Tests if answer pushed on stack is correct
     def test_imul_simple(self):
 	    test2 = OpCodes()
 	    test2.stack.append(2)    # Pushes Y onto the stack
@@ -41,5 +41,17 @@ class TestOpCodes(unittest.TestCase):
 	    test6 = OpCodes()
 	    test6.stack.append(3)    # Pushes Y onto the stack
 	    test6.stack.append(8)    # Pushes X onto the stack
-	    test6.ishl()             # Pops first two operands off stack and does X*2^Y
-	    self.assertEqual(test6.stack.pop(), 64) # Tests the answere of the shift
+	    test6.ishl()             # Pops first two operands off stack and pushs X*2^Y onto the stack
+	    self.assertEqual(test6.stack.pop(), 64) # Tests the answer of the shift
+    def test_ishr_simple(self):
+	    test7 = OpCodes()
+	    test7.stack.append(3)    # Pushes Y onto the stack
+	    test7.stack.append(8)    # Pushes X onto the stack
+	    test7.ishr()             # Pops first two operands off stack and pushes X*2^(-Y)
+	    self.assertEqual(test7.stack.pop(), 1) # Tests the answer of the shift
+    def test_isub_simple(self):
+	    test8 = OpCodes()
+	    test8.stack.append(2)    # Pushes Y onto the stack
+	    test8.stack.append(6)    # Pushes X onto the stack
+	    test8.isub()              # Pops first two operands off stack and pushes X-Y onto the stack
+	    self.assertEqual(test8.stack.pop(), 4) # Tests for correct answer of subtraction
