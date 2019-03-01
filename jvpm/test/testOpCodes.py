@@ -17,6 +17,6 @@ class TestOpCodes(unittest.TestCase):
     def test_imul_simple(self):
 	    test1 = OpCodes()
 	    test1.stack.append(2)
-		test1.stack.append(4)
-		test1.imul()
-		self.assertEqual(test1.stack.pop(), 8)
+	    test1.stack.append(4)
+	    test1.imul()
+	    self.assertEqual(test1.stack.pop(), 8)
