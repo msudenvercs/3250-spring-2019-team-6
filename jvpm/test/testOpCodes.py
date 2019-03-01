@@ -20,3 +20,9 @@ class TestOpCodes(unittest.TestCase):
 	    test1.stack.append(4)
 	    test1.imul()
 	    self.assertEqual(test1.stack.pop(), 8)
+    def test_ineg_simple(self):
+	    test1 = OpCodes()
+	    test1.stack.append(5)
+	    test1.ineg()
+	    self.assertEqual(test1.stack.pop(), -5)
+		
