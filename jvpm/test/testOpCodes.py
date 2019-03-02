@@ -53,5 +53,17 @@ class TestOpCodes(unittest.TestCase):
 	    test8 = OpCodes()
 	    test8.stack.append(2)    # Pushes Y onto the stack
 	    test8.stack.append(6)    # Pushes X onto the stack
-	    test8.isub()              # Pops first two operands off stack and pushes X-Y onto the stack
+	    test8.isub()             # Pops first two operands off stack and pushes X-Y onto the stack
 	    self.assertEqual(test8.stack.pop(), 4) # Tests for correct answer of subtraction
+    #I wasn't sure about iushr so i commented it out for now - Christian
+	#def test_iushr_simple(self):
+	    #test9 = OpCodes()
+	    #test9.stack.append(3)    # Pushes Y onto the stack
+	    #test9.stack.append(8)    # Pushes X onto the stack
+	    #test9.ishr()             # Pops first two operands off stack and pushes X*2^(-Y)
+    def test_ixor_simple(self):
+	    test10 = OpCodes()
+	    test10.stack.append(7)   # Pushes Y onto the stack
+	    test10.stack.append(3)   # Pushes X onto the stack
+	    test10.ixor()            # Pops first two operands off stack and pushes X XOR Y
+	    self.assertEqual(test10.stack.pop(), 4) # Tests for correct answer of XOR
